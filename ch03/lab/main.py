@@ -22,8 +22,8 @@ windowx,windowy=pygame.display.get_window_size()
 center=int(windowx)/2,int(windowy)/2
 window.fill(backcolor)
 pygame.draw.circle(window,'pink',center,center[1])
-pygame.draw.line(window, "black", (0,210), (800,210), 1)
-pygame.draw.line(window, "black", (365,0), (365,600), 1)
+pygame.draw.line(window, "black", (340,425), (1180,425), 1)
+pygame.draw.line(window, "black", (770,0), (770,2000), 1)
 
 
 player1button=pygame.Rect(buttondistance,buttondistance,buttonsize,buttonsize)
