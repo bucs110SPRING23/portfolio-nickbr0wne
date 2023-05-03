@@ -1,99 +1,113 @@
-import turtle #1
+import turtle
 import random
-
-import pygame
 import math
 
-#Part A
-window = turtle.Screen() #2
-window.bgcolor('lightblue')
+window=turtle.screensize(1400,1000,"white")
 
-turtle1 = turtle.Turtle() #3
-turtle2 = turtle.Turtle()
-turtle1.color('pink')
+
+x=random.randrange(1,10)
+print(x)
+
+turtle1=turtle.Turtle()
+turtle2=turtle.Turtle()
+turtle1.color("red")
 turtle2.color('blue')
 turtle1.shape('turtle')
 turtle2.shape('turtle')
+turtle1.speed(1)
+turtle2.speed(1)
 
-turtle1.up() 
-turtle2.up()
+#race1
+
+turtle1.penup()
 turtle1.goto(-100,20)
+turtle1.pendown()
+
+turtle2.penup()
+turtle2.goto(-100,-20)
+turtle2.pendown()
+
+turtle1.forward(random.randrange(1,100))
+turtle2.forward(random.randrange(1,100))
+
+
+turtle1.penup()
+turtle1.goto(-100,20)
+
+
+turtle2.penup()
 turtle2.goto(-100,-20)
 
-range1 = random.randrange(1,100)
-range2 = random.randrange(1,100)
-print(range1, range2)
 
-turtle1.forward(range1)
-turtle2.forward(range2)
-print(range1, range2)
+#race2
 
+turtle1.pendown()
+turtle2.pendown()
+for i in range(10):
+    turtle1.forward(random.randrange(1,100))
+    turtle2.forward(random.randrange(1,100))
+turtle1.penup()
 turtle1.goto(-100,20)
+turtle2.penup()
 turtle2.goto(-100,-20)
 
-range3 = random.randrange(1,10)
-range4 = random.randrange(1,10)
-print(range3, range4)
 
-for i in range(0,10):
-    range3 = random.randrange(1,10)
-    range4 = random.randrange(1,10)
-    turtle1.forward(range3)
-    turtle2.forward(range4)
+#part B
 
-turtle1.goto(-100,20)
-turtle2.goto(-100,20)
-
-#Part B
 import pygame
 import math
 
 pygame.init()
-window = pygame.display.set_mode()
-surface = pygame,display.get_surface()
-def shape_points(num_sides):
-    coords = []
-    num_sides = num_sides
-    side_length = 100
-    offset = 150
+window= pygame.display.set_mode()
+xpos=900
+ypos=450
 
-for i in range(num_sides):
-    theta = (2.0 * math.pi * (i)) / num_sides
-    x = side_length * math.cos(theta) + offset
-    y = side_length * math.sin(theta) + offset
-    t_list = (x,y)
-    coords.append(t_list)
+def getpoints(num_sides, side_length):
+    coords =[]
+    for i in range(num_sides):
+        angle=360/num_sides
+        radians=math.radians(i*angle)
+        x= xpos+side_length*math.cos(radians)
+        y= ypos+side_length*math.sin(radians)
+        t_list=(x,y)
+        coords.append(t_list)
+        pygame.display.flip()
     return coords
 
-pygame.display,polygon(surface, "gold", shape_points(3))
-pygame.display.flip()
-pygame.time.wait(200)
-window.fill("black")
+triangle=getpoints(3,250)
+window.fill('white')
+pygame.draw.polygon(window,'red',triangle)
+pygame.time.wait(1000)
 
-pygame.display,polygon(surface, "green", shape_points(4))
-pygame.display.flip()
-pygame.time.wait(200)
-window.fill("black")
+square=getpoints(4,250)
+window.fill('white')
+pygame.draw.polygon(window,'orange',square)
+pygame.time.wait(1000)
 
-pygame.display,polygon(surface, "red", shape_points(6))
-pygame.display.flip()
-pygame.time.wait(200)
-window.fill("black")
+hexagon=getpoints(6,250)
+window.fill('white')
+pygame.draw.polygon(window,'yellow',hexagon)
+pygame.time.wait(1000)
 
-pygame.display,polygon(surface, "orange", shape_points(20))
-pygame.display.flip()
-pygame.time.wait(200)
-window.fill("black")
+icosagon=getpoints(20,250)
+window.fill('white')
+pygame.draw.polygon(window,'green',icosagon)
+pygame.time.wait(1000)
 
-pygame.display,polygon(surface, "purple", shape_points(100))
-pygame.display.flip()
-pygame.time.wait(200)
-window.fill("black")
+hectagon=getpoints(100,250)
+window.fill('white')
+pygame.draw.polygon(window,'blue',hectagon)
+pygame.time.wait(1000)
 
-pygame.display,polygon(surface, "green", shape_points(360))
-pygame.display.flip()
-pygame.time.wait(200)
-window.fill("black")
 
-turtle.done()
-window.exitonclick()
+circleish=getpoints(360,250)
+window.fill("white")
+pygame.draw.polygon(window,'purple',circleish)
+pygame.time.wait(1000)
+
+circlenotshowing=getpoints(360,250)
+window.fill("white")
+pygame.draw.polygon(window,'white',circlenotshowing)
+pygame.time.wait(3000)
+
+pygame.quit()
