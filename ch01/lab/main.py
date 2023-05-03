@@ -11,3 +11,7 @@ print("Cost per week:", cost_per_week, type(cost_per_week))
 print("Cost per class:", cost_per_class, type(cost_per_class), "  :)")
 
 #Part B
+import random
+list=['One','Two','Three','Four',"Five"]
+randch = random.choice(list)
+print(randch)
