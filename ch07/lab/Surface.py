@@ -1,4 +1,4 @@
-import Rectangle
+from Rectangle import Rectangle
 
 class Surface():
 	def __init__(self, filename, x, y, h, w):
