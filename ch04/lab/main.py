@@ -1,83 +1,84 @@
-import random
 import pygame
+import random
 import math
 
 pygame.init()
+pygame.event.get()
+window=pygame.display.set_mode((800,800))
 
-backcolor=("light blue")
-cicrlecolor=(0,0,200)
-hitcolor=(0,255,0)
-misscolor=(255,0,0)
-player1color=("white")
-player2color=("black")
-chosenplayer=0
-buttonsize=75
-buttondistance=10
-player1score=0
-player2score=0
+button = {
+    "white": pygame.Rect(230,400,100,100),
+    "black": pygame.Rect(570,400,100,100),
+}
+whitescore = 0
+blackscore = 0
+choice=True
+darts=False
+guess=''
+font=pygame.font.Font(None, 30)
+center=800/2
 
-print("Who do you predict will win? (Choose White or Black)")
-window=pygame.display.set_mode()
-windowx,windowy=pygame.display.get_window_size()
-center=int(windowx)/2,int(windowy)/2
-window.fill(backcolor)
-pygame.draw.circle(window,'pink',center,center[1])
-pygame.draw.line(window, "black", (340,425), (1180,425), 1)
-pygame.draw.line(window, "black", (770,0), (770,2000), 1)
-
-
-player1button=pygame.Rect(buttondistance,buttondistance,buttonsize,buttonsize)
-drawing1button=pygame.draw.rect(window,player1color,player1button)
-player2button=pygame.Rect(windowx-buttonsize-buttondistance,buttondistance,buttonsize,buttonsize)
-drawing2button=pygame.draw.rect(window,player2color,player2button)
-pygame.display.flip()
-
-user_has_chosen=False
-
-while not user_has_chosen:
+while choice==True:
     for event in pygame.event.get():
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            clickposition=event.pos
-            if player1button.collidepoint(clickposition):
-                print("You predict White will win...")
-                user_has_chosen=True
-                chosenplayer=1
-            elif player2button.collidepoint(clickposition):
-                print("you predict Black will win...")
-                user_has_chosen=True
-                chosenplayer=2
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if button['white'].collidepoint(event.pos):
+             guess='white'
+             choice=False
+             darts=True
+            elif button['black'].collidepoint(event.pos):
+                guess='black'
+                choice=False
+                darts=True
 
-for i in range(10):
-    throwx=random.randrange(0,windowx)
-    throwy=random.randrange(0,windowy)
-    farfromcenter=math.hypot(center[0]-throwx,center[1]-throwy)
-    is_in_circle=farfromcenter<=center[1]
-    if is_in_circle:
-        dartcolor=player1color
-        player1score=player1score+1
-    else:
-        dartcolor=misscolor
-    pygame.draw.circle(window,dartcolor,(throwx,throwy),2)
-    pygame.time.wait(1000)
+    window.fill('grey')
+    text=font.render('Who will win?', True, "black")
+    window.blit(text, (100, 100))
+    pygame.draw.rect(window, 'white', button['white'])
+    pygame.draw.rect(window, 'black', button['black'])
     pygame.display.flip()
 
-    throwx=random.randrange(0,windowx)
-    throwy=random.randrange(0,windowy)
-    farfromcenter=math.hypot(center[0]-throwx,center[1]-throwy)
-    is_in_circle=farfromcenter<=center[1]
-    if is_in_circle:
-        dartcolor=('black')
-        player2score=player2score+1
-    else:
-        dartcolor=misscolor
-    
-    if player1score>player2score:
-        print("White wins! :D")
-    elif player2score>player1score:
-        print("Black wins! :D")
-    else:
-        print("It's a tie! :O")
+while darts == True:
+    window.fill("white")
+    pygame.draw.circle(window,'blue', (center,center), 400)
 
-pygame.display.update()
-pygame.time.wait(1000)
+    for i in range (10):
+        white_y=random.randrange(0,800)
+        white_x=random.randrange(0,800)
+        white_fromcenter=math.hypot(center-white_x, center-white_y)
+        if white_fromcenter <= 400:
+            is_in_circle=True
+            pygame.draw.circle(window, "white", (white_x,white_y), 5)
+            whitescore=whitescore+1
+        else:
+            is_in_circle=False
+            pygame.draw.circle(window, "red", (white_x,white_y), 5)
+        pygame.display.flip()
+        pygame.time.wait(1000)
 
+        black_y=random.randrange(0,800)
+        black_x=random.randrange(0,800)
+        black_fromcenter=math.hypot(center-black_x, center-black_y)
+        if white_fromcenter <= 400:
+            in_circle=True
+            pygame.draw.circle(window, "black", (black_x,black_y), 5)
+            whitescore=whitescore+1
+        else:
+            in_circle=False
+            pygame.draw.circle(window, "red", (black_x,black_y), 5)
+        pygame.display.flip()
+        pygame.time.wait(1000)
+
+    if (whitescore<blackscore and guess == 'white') or (blackscore<whitescore and guess == 'black'):
+        text = font.render("You lose. :(", False, 'black')
+    if (whitescore>blackscore and guess == 'white') or (blackscore>whitescore and guess == 'black'):
+        text = font.render("You win! :D", True, 'black')
+    else:
+         text = font.render("Tie.", True, 'black')
+
+    window.fill('white')
+    window.blit(text, (100,100))
+    pygame.display.flip()
+    pygame.time.wait(3000)
+    darts=False
+
+pygame.display.quit()
