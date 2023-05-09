@@ -14,4 +14,4 @@ print("Cost per class:", cost_per_class, type(cost_per_class), "  :)")
 import random
 list=['One','Two','Three','Four',"Five"]
 randch = random.choice(list)
-print(randch)
+print(randch, "out of Five")
